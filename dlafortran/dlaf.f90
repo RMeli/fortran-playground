@@ -180,6 +180,25 @@ contains
 
       end subroutine set_random_matrix_z
 
+   subroutine print_numpy(m, name)
+    character(len=*), intent(in) :: name
+    complex(kind=dp), dimension(:,:), intent(in) :: m
+    integer :: i, j
+
+    character(*), parameter :: format = "(F14.10, SP, F14.10,a)" 
+
+    write(* , "(a,a)") name, " = np.array(["
+    do j = 1, size(m, 2)
+      write(*, "(a)", advance="no") "["
+      do i = 1, size(m, 1)
+        write(*, format, advance="no") m(i, j)%re, m(i, j)%im, "j, "
+      end do
+      write(*, "(a)") "],"
+    end do
+    write(* , "(a)") "])"
+   
+   end subroutine print_numpy
+
    subroutine pzheevd
 
       integer, parameter :: n = 4
@@ -240,7 +259,7 @@ contains
          call descinit(descz_dlaf, n, n, n, n, 0, 0, ictxt_0, n, info)
 
          call set_random_matrix_z(A)
-         write(*,*) A
+         call print_numpy(A, "A")
       end if
 
       ! Allocate local matrices
@@ -274,6 +293,8 @@ contains
       if(rank == 0) then
          write(error_unit,*) "DLAF: ", W_dlaf
       end if
+
+      call print_numpy(Z_dlaf, "Z_dlaf")
 
       if(rank == 0) then
          if(allocated(A)) deallocate(A)
