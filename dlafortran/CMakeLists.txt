@@ -38,7 +38,7 @@ else()
 endif()
 
 add_executable(dlaf dlaf.f90)
-target_compile_options(dlaf PRIVATE "-Wall" "-Wpedantic")
+target_compile_options(dlaf PRIVATE "-Wall" "-Wpedantic" "-Wextra")
 target_link_libraries(dlaf PRIVATE DLAF::DLAF MPI::MPI_Fortran)
 if(DLAFORT_WITH_MKL)
 	target_link_libraries(dlaf PRIVATE MKL::MKL)
