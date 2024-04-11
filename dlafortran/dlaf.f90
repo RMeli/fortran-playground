@@ -183,7 +183,6 @@ contains
    subroutine pzheevd
 
       integer, parameter :: n = 4
-      integer :: i, j
       integer :: ierr
       
       integer :: rank, nprocs
@@ -194,8 +193,8 @@ contains
       integer :: info, lld, nb, ma, na
       integer :: desca(9), desca_local_dlaf(9)
       integer :: descz_local_dlaf(9)
-      integer :: descz_dlaf(9), descz_scalapack(9)
-      complex(kind=dp), dimension(:,:), allocatable :: A, A_local_dlaf, A_local_scalapack
+      integer :: descz_dlaf(9)
+      complex(kind=dp), dimension(:,:), allocatable :: A, A_local_dlaf
       complex(kind=dp), dimension(:,:), allocatable ::Z_local_dlaf
       complex(kind=dp), dimension(:,:), allocatable :: Z_dlaf
       real(kind=dp), dimension(:), allocatable :: W_dlaf
