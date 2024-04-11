@@ -1,0 +1,10 @@
+{
+    "cmake.configureArgs": [
+        "-DDLAFORT_WITH_MKL=on",
+    ],
+    "cmake.buildDirectory": "${workspaceFolder}/build",
+    "cmake.parallelJobs": 6,
+    "files.associations": {
+        "cmath": "cpp"
+    }
+}

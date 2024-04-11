@@ -1,0 +1,9 @@
+{
+    "version": "2.0.0",
+    "tasks": [{
+        "label": "cleanup",
+        "command": "rm", // Could be any other shell command
+        "args": ["-f", "*.h5"],
+        "type": "shell"
+    }]
+}
