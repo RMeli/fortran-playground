@@ -6,5 +6,6 @@
     "cmake.parallelJobs": 6,
     "files.associations": {
         "cmath": "cpp"
-    }
+    },
+    "sonarlint.pathToCompileCommands": "${workspaceFolder}/build/compile_commands.json"
 }
