@@ -97,7 +97,7 @@ contains
 
       interface
          subroutine pzheevd_dlaf(uplo_, n_, a_, ia_, ja_, desca_, w_, z_, iz_, jz_, descz_, info_) &
-            bind(C, name='dlaf_pzheevd')
+            bind(C, name='dlaf_pzheevd_c')
 
             import :: c_int, c_ptr, c_signed_char
 
