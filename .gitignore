@@ -1,2 +1,9 @@
 # CMake
 build/
+
+# Spack
+.spack-env
+spack.lock
+
+# Python
+__pycache__/

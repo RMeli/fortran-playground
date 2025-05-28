@@ -1,0 +1,29 @@
+spack:
+  specs:
+  - dummy@main
+  packages:
+    mpi:
+      require:
+        - mpich
+    mpich:
+      require:
+        - "@4.1: device=ch3 netmod=tcp"
+    blas:
+      require:
+        - openblas
+    lapack:
+      require:
+        - openblas
+    scalapack:
+      require:
+        - netlib-scalapack
+  repos:
+    - ~/git/work/my-spack/repos/spack-v1/ # TODO: Remove
+    - ~/git/oss/fortran-playground/scalapack-2.2.2/spack/ 
+  develop:
+    netlib-scalapack:
+      path: ~/git/work/scalapack/
+      spec: netlib-scalapack@2.2.0
+  view: false
+  concretizer:
+    unify: true
