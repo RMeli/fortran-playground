@@ -14,7 +14,6 @@ module pzpotri_tests
 
    implicit none
 
-
    external blacs_pinfo
    external blacs_get
    external blacs_gridinit
@@ -32,7 +31,7 @@ contains
 
       if (present(ictxt)) call blacs_gridexit(ictxt)
       call mpi_finalize(ierr)
-      stop -1
+      stop - 1
    end subroutine terminate
 
    subroutine setup_mpi(nprow, npcol, rank, nprocs)
@@ -135,6 +134,7 @@ contains
       integer :: descr_scalapack(9)
       complex(kind=dp), dimension(:, :), allocatable :: A, A_local_scalapack
       complex(kind=dp), dimension(:, :), allocatable :: R_scalapack
+      character :: uplo = 'L'
 
       nprow = 2
       npcol = 3
@@ -177,12 +177,12 @@ contains
       call pzgemr2d(n, n, A, 1, 1, desca, A_local_scalapack, 1, 1, desca_local_scalapack, ictxt)
 
       ! ScaLAPACK
-      call pzpotrf('L', n, A_local_scalapack, 1, 1, desca_local_scalapack, info)
+      call pzpotrf(uplo, n, A_local_scalapack, 1, 1, desca_local_scalapack, info)
       if (info /= 0) then
          write (error_unit, *) 'ERROR: pzpotrf returned info = ', info
          call terminate(ictxt)
       end if
-      call pzpotri('L', n, A_local_scalapack, 1, 1, desca_local_scalapack, info)
+      call pzpotri(uplo, n, A_local_scalapack, 1, 1, desca_local_scalapack, info)
       if (info /= 0) then
          write (error_unit, *) 'ERROR: pzpotri returned info = ', info
          call terminate(ictxt)
@@ -196,18 +196,18 @@ contains
       failed = .false.
       if (rank == 0) then
          write (*, *) "A="
-         do j=1,n
-            write(*, "(*('('sf6.2xspf6.2x'i)':x))") A(:,j)
+         do j = 1, n
+            write (*, "(*('('sf6.2xspf6.2x'i)':x))") A(:, j)
          end do
          write (*, *) "ScaLAPACK="
-         do j=1,n
-            write(*, "(*('('sf6.2xspf6.2x'i)':x))") R_scalapack(:,j)
+         do j = 1, n
+            write (*, "(*('('sf6.2xspf6.2x'i)':x))") R_scalapack(:, j)
          end do
-         call zpotrf('L', n, A, n, info)
-         call zpotri('L', n, A, n, info)
+         call zpotrf(uplo, n, A, n, info)
+         call zpotri(uplo, n, A, n, info)
          write (*, *) "LAPACK="
-         do j=1,n
-            write(*, "(*('('sf6.2xspf6.2x'i)':x))") A(:,j)
+         do j = 1, n
+            write (*, "(*('('sf6.2xspf6.2x'i)':x))") A(:, j)
          end do
       end if
 
@@ -225,7 +225,7 @@ contains
 end module pzpotri_tests
 
 program test_pzpotri
-   use pzpotri_tests, only : pzpotri_test
+   use pzpotri_tests, only: pzpotri_test
 
    implicit none
 
