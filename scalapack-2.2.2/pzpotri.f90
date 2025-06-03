@@ -124,7 +124,7 @@ contains
 
       integer, parameter :: n = 4
 
-      integer :: j
+      integer :: i, j
       integer:: nprow, npcol
       logical :: failed
       integer :: rank, numprocs, myrow, mycol
@@ -195,20 +195,43 @@ contains
 
       failed = .false.
       if (rank == 0) then
-         write (*, *) "A="
-         do j = 1, n
-            write (*, "(*('('sf6.2xspf6.2x'i)':x))") A(:, j)
-         end do
-         write (*, *) "ScaLAPACK="
-         do j = 1, n
-            write (*, "(*('('sf6.2xspf6.2x'i)':x))") R_scalapack(:, j)
-         end do
+         if (n < 10) then
+            write (*, *) "A="
+            do j = 1, n
+               write (*, "(*('('sf6.2xspf6.2x'i)':x))") A(:, j)
+            end do
+            write (*, *) "ScaLAPACK="
+            do j = 1, n
+               write (*, "(*('('sf6.2xspf6.2x'i)':x))") R_scalapack(:, j)
+            end do
+         end if
          call zpotrf(uplo, n, A, n, info)
          call zpotri(uplo, n, A, n, info)
-         write (*, *) "LAPACK="
-         do j = 1, n
-            write (*, "(*('('sf6.2xspf6.2x'i)':x))") A(:, j)
-         end do
+         if (n < 10) then
+            write (*, *) "LAPACK="
+            do j = 1, n
+               write (*, "(*('('sf6.2xspf6.2x'i)':x))") A(:, j)
+            end do
+         end if
+
+         if (uplo == 'L') then
+            do j = 1, n
+               do i = 1, j
+                  if (abs(R_scalapack(i, j) - A(i, j)) > 1.0e-9_dp) then
+             write (error_unit, *) 'ERROR: R_scalapack(', i, ',', j, ') = ', R_scalapack(i, j), ' != A(', i, ',', j, ') = ', A(i, j)
+                  end if
+               end do
+            end do
+         else if (uplo == 'U') then
+            do j = 1, n
+               do i = j, n
+                  if (abs(R_scalapack(i, j) - A(i, j)) > 1.0e-9_dp) then
+             write (error_unit, *) 'ERROR: R_scalapack(', i, ',', j, ') = ', R_scalapack(i, j), ' != A(', i, ',', j, ') = ', A(i, j)
+                  end if
+               end do
+            end do
+         end if
+
       end if
 
       if (rank == 0) then
