@@ -119,13 +119,13 @@ contains
       integer :: descb(9), descb_local(9)
       real(kind=dp), dimension(:, :), allocatable :: A, A_local
       real(kind=dp), dimension(:, :), allocatable :: B, B_local
-      character :: uplo = 'L'
+      character :: uplo = 'U'
       real(kind=dp) :: s
       integer :: start_count, stop_count, rate
       real(kind=dp) :: total_time, avg_time, max_time, min_time
 
-      nprow = 4
-      npcol = 8
+      nprow = 8
+      npcol = 4
       nb = 64
 
       call setup_mpi(nprow, npcol, rank, numprocs)
