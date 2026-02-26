@@ -180,7 +180,6 @@ contains
       call mpi_barrier(MPI_COMM_WORLD, info)
       call system_clock(start_count, rate)
       call pdsygst(1, uplo, n, A_local, 1, 1, desca_local, B_local, 1, 1, descb_local, s, info)
-      call mpi_barrier(MPI_COMM_WORLD, info)
       call system_clock(stop_count)
       if (info /= 0) then
          write (error_unit, *) 'ERROR: pdsygst returned info = ', info
